@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Şehrini Yeniden Keşfet!</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- CSS kodların burada devam edecek -->
+</head>
+<body>
+  <div class="kenar-sus-sol"></div>
+  <div class="kenar-sus-sag"></div>
+  <div class="emoji-float">🌈✨🍀🎉😎</div>
+  <div class="welcome-float glow-border">
+    <span style="font-size:1.05em;">✨ Hoşgeldin!</span><br>
+    <span style="color:#fed6e3; font-size:0.97em; font-weight:bold;">Şehrini keşfet</span>
+    <hr style="border:none; border-top:1.2px solid #fed6e3; margin:6px 0;">
+    <span style="font-size:0.89em; color:#fff; font-weight:400;">
+      Bu site, Türkiye'nin şehirlerinde gezilecek yerleri, restoranları ve etkinlikleri öğrenci dostu ve eğlenceli bir şekilde keşfetmen için tasarlandı!
+    </span>
+  </div>
+  <img src="images/mascot.png" alt="Maskot" class="mascot">
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="toggleGezilecekYerler()" data-icon="🗺️">Gezilecek Yerler</a></li>
+        <li><a href="#" onclick="toggleUlasimKartlari()" data-icon="🚍">Ulaşım Kartları</a></li>
+        <li><a href="#" onclick="toggleRestronlar()" data-icon="🍽️">Restoranlar</a></li>
+        <li><a href="#" onclick="toggleEtkinlikler()" data-icon="🎉">Etkinlikler</a></li>
+        <li><a href="#harita" data-icon="🗾">Haritalar</a></li>
+      </ul>
+    </nav>
+    <h1>Keşfetmeye Hazır mısın!</h1>
+  </header>
+
+  <main>
+    <div class="cta-student glow-border" onclick="alert('Öğrenciler için en uygun mekanları keşfet!')">Öğrenciler için en uygun mekanları keşfet!</div>
+
+    <!-- Şehirler bölümü kaldırıldı -->
+
+    <!-- Gezilecek Yerler bölümü -->
+    <section id="gezilecek-yerler" style="display:none;">
+      <h2>Gezilecek Yerler</h2>
+      <p>Şehir seçerek sadece o şehre ait gezilecek yerleri görebilirsin:</p>
+      <select id="gezilecekSehirSec">
+        <option value="malatya">Malatya</option>
+        <option value="bursa">Bursa</option>
+      </select>
+      <div id="malatya-yerler" class="sehir-yerler">
+        <h2>Malatya'da Gezilecek Yerler</h2>
+        <div class="restoranlar-grid">
+          <div class="restoran-card">
+            <span class="restoran-emoji">🌊</span>
+            <div class="restoran-title">Günpınar Şelalesi</div>
+            <div class="restoran-desc">Malatya'nın en ünlü doğal şelalesi. Serin ortamı ve yemyeşil doğası ile özellikle yaz aylarında piknik ve dinlenme için tercih edilir.</div>
+            <div class="restoran-neden">Neden tercih edilmeli? Doğayla baş başa kalmak ve serinlemek için ideal.</div>
+          </div>
+          <!-- Diğer mekanlar buraya aynı formatta eklenebilir -->
+        </div>
+      </div>
+      <div id="bursa-yerler" class="sehir-yerler" style="display:none;">
+        <h2>Bursa'da Gezilecek Yerler</h2>
+        <div class="restoranlar-grid">
+          <div class="restoran-card">
+            <span class="restoran-emoji">🕌</span>
+            <div class="restoran-title">Ulu Camii</div>
+            <div class="restoran-desc">1399 yılında Yıldırım Bayezid tarafından yaptırılan, Osmanlı mimarisinin en önemli eserlerinden biri. 20 kubbesiyle ünlü.</div>
+            <div class="restoran-neden">Neden tercih edilmeli? Tarihi atmosferi ve ihtişamlı mimarisiyle mutlaka görülmeli.</div>
+          </div>
+          <!-- Diğer mekanlar buraya aynı formatta eklenebilir -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Ulaşım Kartları bölümü -->
+    <section id="ulasim-kartlari" style="display:none;">
+      <h2>Ulaşım Kartları Hakkında</h2>
+      <ul>
+        <li><strong>İstanbulkart</strong>: İstanbul'da otobüs, metro, tramvay ve vapurda geçerli.</li>
+        <li><strong>Ankarakart</strong>: Ankara'da otobüs ve metroda kullanılır.</li>
+        <li><strong>İzmirim Kart</strong>: İzmir'de otobüs, metro, vapur ve tramvayda geçerli.</li>
+        <li><strong>Bursakart</strong>: Bursa'da toplu taşıma araçlarında kullanılır.</li>
+        <li><strong>MOTAŞ Kart</strong>: Malatya'da otobüs ve trambüslerde geçerli.</li>
+      </ul>
+      <button onclick="toggleUlasimKartlari()">Kapat</button>
+    </section>
+
+    <!-- Restoranlar bölümü -->
+    <section id="restronlar" style="display:none;">
+      <h2>En Güzel Restoranlar 🍽️</h2>
+      <ul>
+        <li>
+          <strong>Adana: Kebapçı Ciğerci</strong><br>
+          Adana'nın meşhur kebap ve ciğer çeşitleriyle ünlü, hızlı servis ve uygun fiyatlı bir restoran.<br>
+          <strong>Öğrenciye uygun:</strong> Evet (Fiyatlar makul, porsiyonlar doyurucu)<br>
+          <strong>Fiyat:</strong> Ortalama 80-120 TL (kebap porsiyonu)<br>
+          <strong>Neden tercih edilir?</strong> Lezzetli ve otantik Adana kebabı, hızlı servis, samimi ortam.
+        </li>
+        <!-- Diğer restoranlar aynı formatta eklenebilir -->
+      </ul>
+      <button onclick="toggleRestronlar()">Kapat</button>
+    </section>
+
+    <!-- Etkinlikler bölümü -->
+    <section id="etkinlikler" style="display:none;">
+      <h2>Etkinlikler</h2>
+      <ul>
+        <li>Malatya: Kayısı Festivali</li>
+        <li>Malatya: Kültür Yolu Festivali</li>
+        <li>İstanbul: Film Festivali</li>
+        <li>Ankara: Kitap Fuarı</li>
+        <li>İzmir: Maraton</li>
+      </ul>
+      <button onclick="toggleEtkinlikler()">Kapat</button>
+    </section>
+  </main>
+
+  <footer style="text-align:center; margin-top:48px; font-size:90%; color:#555;">
+    <div style="background:linear-gradient(90deg,#fed6e3 0%,#a8edea 100%); border-radius:16px; box-shadow:0 2px 12px #d7266055; padding:16px 24px; display:inline-block; margin-bottom:12px; color:#222;">
+      <strong style="font-size:1.15em; color:#d72660;">&copy; 2025 Tüm Hakları Saklıdır</strong><br>
+      <span style="color:#4fc3f7; font-weight:bold;">Telif Hakkı Uyarısı:</span> Bu sitenin içeriği, tasarımı ve görselleri <b>5846 sayılı Fikir ve Sanat Eserleri Kanunu</b> kapsamında korunmaktadır.<br>
+      İzinsiz kopyalama, çoğaltma ve yayınlama yasaktır. Tespit halinde yasal işlem başlatılır.<br>
+      <span style="font-size:0.95em; color:#d72660;">Lütfen emeğe saygı gösterin.</span>
+    </div>
+  </footer>
+
+  <!-- JS kodların en sona eklenmelidir -->
+  <script>
+    // JS kodunu burada kullanabilirsin.
+    // toggleGezilecekYerler, toggleUlasimKartlari, toggleRestronlar, toggleEtkinlikler fonksiyonları örnek olarak bırakıldı.
+    function hideAllSections() {
+      document.getElementById('gezilecek-yerler').style.display = 'none';
+      document.getElementById('ulasim-kartlari').style.display = 'none';
+      document.getElementById('restronlar').style.display = 'none';
+      document.getElementById('etkinlikler').style.display = 'none';
+    }
+    function toggleGezilecekYerler() {
+      hideAllSections();
+      document.getElementById('gezilecek-yerler').style.display = 'block';
+    }
+    function toggleUlasimKartlari() {
+      hideAllSections();
+      document.getElementById('ulasim-kartlari').style.display = 'block';
+    }
+    function toggleRestronlar() {
+      hideAllSections();
+      document.getElementById('restronlar').style.display = 'block';
+    }
+    function toggleEtkinlikler() {
+      hideAllSections();
+      document.getElementById('etkinlikler').style.display = 'block';
+    }
+    // Şehir seçimine göre gezilecek yerler bölümü güncellemesi
+    document.addEventListener('DOMContentLoaded', function() {
+      var sehirSec = document.getElementById('gezilecekSehirSec');
+      var malatyaDiv = document.getElementById('malatya-yerler');
+      var bursaDiv = document.getElementById('bursa-yerler');
+      if (sehirSec) {
+        sehirSec.addEventListener('change', function() {
+          if (sehirSec.value === 'malatya') {
+            malatyaDiv.style.display = 'block';
+            bursaDiv.style.display = 'none';
+          } else if (sehirSec.value === 'bursa') {
+            malatyaDiv.style.display = 'none';
+            bursaDiv.style.display = 'block';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
