@@ -1,13 +1,225 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Şehrini Yeniden Keşfet!</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- CSS kodların burada devam edecek -->
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Şehrini Yeniden Keşfet!</title>
+    <link rel="stylesheet" href="style.css">
+      <style>
+        .kenar-sus-sol, .kenar-sus-sag {
+          position: fixed;
+          top: 0;
+          width: 38px;
+          height: 100vh;
+          z-index: 900;
+          background: linear-gradient(180deg, #fed6e3 0%, #a8edea 100%);
+          box-shadow: 0 0 24px #d7266055;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 0;
+        }
+        .kenar-sus-sol {
+          left: 0;
+          border-top-right-radius: 24px;
+          border-bottom-right-radius: 24px;
+        }
+        .kenar-sus-sag {
+          right: 0;
+          border-top-left-radius: 24px;
+          border-bottom-left-radius: 24px;
+        }
+        .kenar-sus-sol::before, .kenar-sus-sol::after, .kenar-sus-sag::before, .kenar-sus-sag::after {
+          content: '';
+          display: block;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #fff;
+          box-shadow: 0 2px 12px #a8edea88;
+          margin: 8px auto;
+        }
+        .kenar-sus-sol::before { background: #d72660; }
+        .kenar-sus-sol::after { background: #fed6e3; }
+        .kenar-sus-sag::before { background: #a8edea; }
+        .kenar-sus-sag::after { background: #4fc3f7; }
+        @media (max-width: 700px) {
+          .kenar-sus-sol, .kenar-sus-sag { display: none; }
+        }
+        h1, h2, h3 {
+          color: #d72660;
+          font-family: 'Segoe UI', Arial, sans-serif;
+          letter-spacing: 1px;
+          text-shadow: 0 2px 12px #a8edea88, 0 1px 0 #fff;
+          transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
+          animation: titlePulse 2.2s infinite alternate;
+        }
+        h1:hover, h2:hover, h3:hover {
+          color: #4fc3f7;
+          transform: scale(1.08) rotate(-2deg);
+          box-shadow: 0 8px 32px #d72660cc;
+          text-shadow: 0 4px 24px #fed6e3, 0 2px 8px #a8edea;
+        }
+        @keyframes titlePulse {
+          from { text-shadow: 0 2px 12px #a8edea88, 0 1px 0 #fff; }
+          to { text-shadow: 0 8px 32px #fed6e3, 0 2px 8px #a8edea; color: #4fc3f7; }
+        }
+        body {
+          background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+          min-height: 100vh;
+          font-family: 'Segoe UI', Arial, sans-serif;
+          position: relative;
+          overflow-x: hidden;
+          animation: bgMove 12s linear infinite alternate;
+        }
+        @keyframes bgMove {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
+        .emoji-float {
+          position: fixed;
+          right: 32px;
+          top: 80px;
+          font-size: 2.5rem;
+          animation: emojiFloat 2.5s infinite alternate;
+          z-index: 1002;
+        }
+        @keyframes emojiFloat {
+          from { transform: translateY(0); }
+          to { transform: translateY(-18px) scale(1.12); }
+        }
+        .welcome-float {
+          position: fixed;
+          top: 32px;
+          left: 24px;
+          right: auto;
+          transform: none;
+          background: linear-gradient(90deg, #d72660 0%, #a8edea 100%);
+          color: #fff;
+          padding: 10px 18px;
+          border-radius: 20px;
+          font-size: 0.98rem;
+          font-weight: 500;
+          box-shadow: 0 4px 24px #d7266055;
+          z-index: 1001;
+          animation: pulseGlow 2s infinite alternate;
+          letter-spacing: 1px;
+          max-width: 220px;
+          text-align: left;
+          border: 2px solid #fed6e3;
+        }
+        @keyframes pulseGlow {
+          from { box-shadow: 0 4px 24px #d7266055; }
+          to { box-shadow: 0 8px 32px #a8edea99; }
+        }
+        .mascot {
+          position: fixed;
+          bottom: 24px;
+          left: 24px;
+          width: 90px;
+          z-index: 1000;
+          animation: mascotBounce 1.5s infinite alternate;
+          filter: drop-shadow(0 4px 16px #d7266055);
+        }
+        @keyframes mascotBounce {
+          from { transform: translateY(0); }
+          to { transform: translateY(-18px) scale(1.08); }
+        }
+        .cta-student {
+          position: fixed;
+          left: 50%;
+          bottom: 40px;
+          transform: translateX(-50%);
+          background: linear-gradient(90deg, #d72660 0%, #a8edea 100%);
+          color: #fff;
+          padding: 16px 32px;
+          border-radius: 32px;
+          font-size: 1.2rem;
+          font-weight: bold;
+          box-shadow: 0 4px 24px #d7266055;
+          z-index: 999;
+          animation: pulseGlow 2s infinite alternate;
+          letter-spacing: 1px;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-student:hover {
+          background: linear-gradient(90deg, #a8edea 0%, #d72660 100%);
+          color: #d72660;
+          cursor: pointer;
+          transform: scale(1.07) rotate(-2deg);
+          box-shadow: 0 8px 32px #d72660cc;
+        }
+        .restoranlar-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 24px;
+          margin-top: 24px;
+        }
+        .restoran-card {
+          box-shadow: 0 12px 32px #d72660cc, 0 8px 32px #a8edea99;
+          transform: scale(1.04) rotate(-1deg);
+          transition: box-shadow 0.3s, transform 0.2s;
+          border-radius: 18px;
+          background: #fff;
+          position: relative;
+        }
+        .restoran-card:hover {
+          box-shadow: 0 24px 64px #d72660cc, 0 8px 32px #a8edea99;
+          transform: scale(1.07) rotate(-2deg);
+          background: linear-gradient(90deg,#fed6e3 0%,#a8edea 100%);
+        }
+        .restoran-emoji {
+          font-size: 2.1rem;
+          position: absolute;
+          top: 12px;
+          right: 18px;
+          filter: drop-shadow(0 2px 8px #a8edea88);
+          animation: emojiFloat 2s infinite alternate;
+        }
+        .restoran-title {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #d72660;
+          margin-bottom: 6px;
+        }
+        .restoran-desc {
+          font-size: 0.98rem;
+          color: #222;
+          margin-bottom: 6px;
+        }
+        .restoran-neden {
+          font-size: 0.95rem;
+          color: #09f;
+        }
+        section h2 {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #d72660;
+          font-size: 2.1rem;
+          margin-bottom: 12px;
+          animation: pulseGlow 2s infinite alternate;
+        }
+        section h2::before {
+          content: '✨';
+          font-size: 1.5em;
+          animation: sparkle 1.2s infinite alternate;
+        }
+        @keyframes sparkle {
+          from { filter: brightness(1); }
+          to { filter: brightness(2); }
+        }
+        nav ul li a[data-icon]::before {
+          animation: iconWiggle 1.5s infinite alternate;
+        }
+        @keyframes iconWiggle {
+          from { transform: rotate(-8deg) scale(1.1); }
+          to { transform: rotate(8deg) scale(1.2); }
+        }
+      </style>
+  </head>
+  <body>
   <div class="kenar-sus-sol"></div>
   <div class="kenar-sus-sag"></div>
   <div class="emoji-float">🌈✨🍀🎉😎</div>
@@ -15,149 +227,569 @@
     <span style="font-size:1.05em;">✨ Hoşgeldin!</span><br>
     <span style="color:#fed6e3; font-size:0.97em; font-weight:bold;">Şehrini keşfet</span>
     <hr style="border:none; border-top:1.2px solid #fed6e3; margin:6px 0;">
-    <span style="font-size:0.89em; color:#fff; font-weight:400;">
-      Bu site, Türkiye'nin şehirlerinde gezilecek yerleri, restoranları ve etkinlikleri öğrenci dostu ve eğlenceli bir şekilde keşfetmen için tasarlandı!
-    </span>
+    <span style="font-size:0.89em; color:#fff; font-weight:400;">Bu site, Türkiye'nin şehirlerinde gezilecek yerleri, restronları ve etkinlikleri öğrenci dostu ve eğlenceli bir şekilde keşfetmen için hazırlandı.<br>🎈 <b style="font-size:0.89em;">Daha fazla eğlence için butonlara tıkla!</b></span>
   </div>
-  <img src="images/mascot.png" alt="Maskot" class="mascot">
-
-  <header>
-    <nav>
-      <ul>
-        <li><a href="#" onclick="toggleGezilecekYerler()" data-icon="🗺️">Gezilecek Yerler</a></li>
-        <li><a href="#" onclick="toggleUlasimKartlari()" data-icon="🚍">Ulaşım Kartları</a></li>
-        <li><a href="#" onclick="toggleRestronlar()" data-icon="🍽️">Restoranlar</a></li>
-        <li><a href="#" onclick="toggleEtkinlikler()" data-icon="🎉">Etkinlikler</a></li>
-        <li><a href="#harita" data-icon="🗾">Haritalar</a></li>
-      </ul>
-    </nav>
-    <h1>Keşfetmeye Hazır mısın!</h1>
-  </header>
-
+  <img src="işuğraş2.txt/image/mascot.png" alt="Maskot" class="mascot">
+    <header>
+      <nav>
+        <ul>
+          <!-- Şehirler linki kaldırıldı -->
+          <li><a href="#" onclick="toggleGezilecekYerler()" data-icon="🗺️">Gezilecek Yerler</a></li>
+          <li><a href="#" onclick="toggleUlasimKartlari()" data-icon="🚍">Ulaşım Kartları</a></li>
+          <li><a href="#" onclick="toggleRestronlar()" data-icon="🍽️">Restronlar</a></li>
+          <li><a href="#" onclick="toggleEtkinlikler()" data-icon="🎉">Etkinlikler</a></li>
+          <li><a href="#harita" data-icon="🗾">Haritalar</a></li>
+        </ul>
+      </nav>
+  <h1>Keşfetmeye Hazır mısın!</h1>
+    </header>
   <main>
-    <div class="cta-student glow-border" onclick="alert('Öğrenciler için en uygun mekanları keşfet!')">Öğrenciler için en uygun mekanları keşfet!</div>
-
-    <!-- Şehirler bölümü kaldırıldı -->
-
-    <!-- Gezilecek Yerler bölümü -->
-    <section id="gezilecek-yerler" style="display:none;">
-      <h2>Gezilecek Yerler</h2>
-      <p>Şehir seçerek sadece o şehre ait gezilecek yerleri görebilirsin:</p>
-      <select id="gezilecekSehirSec">
-        <option value="malatya">Malatya</option>
-        <option value="bursa">Bursa</option>
-      </select>
-      <div id="malatya-yerler" class="sehir-yerler">
-        <h2>Malatya'da Gezilecek Yerler</h2>
-        <div class="restoranlar-grid">
-          <div class="restoran-card">
-            <span class="restoran-emoji">🌊</span>
-            <div class="restoran-title">Günpınar Şelalesi</div>
-            <div class="restoran-desc">Malatya'nın en ünlü doğal şelalesi. Serin ortamı ve yemyeşil doğası ile özellikle yaz aylarında piknik ve dinlenme için tercih edilir.</div>
-            <div class="restoran-neden">Neden tercih edilmeli? Doğayla baş başa kalmak ve serinlemek için ideal.</div>
-          </div>
-          <!-- Diğer mekanlar buraya aynı formatta eklenebilir -->
+  <!-- Confetti canvas sadece butona tıklanınca eklenir -->
+  <div class="cta-student glow-border" onclick="alert('Öğrenciler için en uygun mekanları keşfet!')">Öğrenciler için en uygun mekanları keşfet!</div>
+    <!-- AI Robot Mascot -->
+    <div id="ai-bot-container" style="position:fixed; bottom:24px; right:24px; z-index:1000; cursor:pointer;">
+      <svg id="ai-bot-svg" width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="25" width="40" height="28" rx="14" fill="#e0e7ef" stroke="#3a3a3a" stroke-width="2"/>
+        <ellipse cx="35" cy="39" rx="16" ry="13" fill="#a8edea"/>
+        <rect x="25" y="33" width="20" height="10" rx="5" fill="#fff"/>
+        <circle cx="28" cy="38" r="3" fill="#222"/>
+        <circle cx="42" cy="38" r="3" fill="#222"/>
+        <rect x="32" y="44" width="6" height="3" rx="1.5" fill="#d72660"/>
+        <rect x="31" y="20" width="8" height="8" rx="4" fill="#fed6e3" stroke="#3a3a3a" stroke-width="1"/>
+        <rect x="33" y="12" width="4" height="8" rx="2" fill="#3a3a3a"/>
+        <rect x="20" y="53" width="6" height="8" rx="3" fill="#a8edea" stroke="#3a3a3a" stroke-width="1"/>
+        <rect x="44" y="53" width="6" height="8" rx="3" fill="#a8edea" stroke="#3a3a3a" stroke-width="1"/>
+        <text x="35" y="65" text-anchor="middle" font-size="10" fill="#3a3a3a" font-family="Arial">AI Bot</text>
+      </svg>
+      <div id="ai-bot-chat" style="display:none; position:absolute; bottom:80px; right:0; width:280px; background:#fff; border-radius:16px; box-shadow:0 4px 24px #d7266055; padding:16px;">
+  <div style="font-weight:bold; color:#d72660; margin-bottom:8px;">Tatlış Asistan: <span style="color:#4fc3f7">Zeki 🤖</span> / Cute Assistant: <span style="color:#4fc3f7">zeki 🤖</span></div>
+        <div style="margin-bottom:8px;">
+          <label for="ai-bot-lang" style="font-size:13px;">Dil / Language:</label>
+          <select id="ai-bot-lang" style="padding:2px 8px; border-radius:8px;">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+          </select>
         </div>
-      </div>
-      <div id="bursa-yerler" class="sehir-yerler" style="display:none;">
-        <h2>Bursa'da Gezilecek Yerler</h2>
-        <div class="restoranlar-grid">
-          <div class="restoran-card">
-            <span class="restoran-emoji">🕌</span>
-            <div class="restoran-title">Ulu Camii</div>
-            <div class="restoran-desc">1399 yılında Yıldırım Bayezid tarafından yaptırılan, Osmanlı mimarisinin en önemli eserlerinden biri. 20 kubbesiyle ünlü.</div>
-            <div class="restoran-neden">Neden tercih edilmeli? Tarihi atmosferi ve ihtişamlı mimarisiyle mutlaka görülmeli.</div>
-          </div>
-          <!-- Diğer mekanlar buraya aynı formatta eklenebilir -->
+        <div id="ai-bot-messages" style="min-height:64px; font-size:14px; color:#222; margin-bottom:8px; max-height:180px; overflow-y:auto; background:#f7f7fa; border-radius:8px; padding:8px;">
+          <div id="ai-bot-welcome"></div>
         </div>
+        <div id="ai-bot-loading" style="display:none; color:#a8edea; font-size:13px; margin-bottom:6px;">Yanıt hazırlanıyor... / Preparing answer...</div>
+  <input id="ai-bot-input" type="text" placeholder="Sorunuzu veya komutunuzu yazın... / Type your question or command..." style="width:92%; min-width:180px; padding:10px 14px; border-radius:10px; border:1.5px solid #a8edea; font-size:16px;">
+        <button id="ai-bot-send" style="background:#d72660; color:#fff; border:none; border-radius:8px; padding:6px 12px; margin-left:4px; cursor:pointer;">Gönder / Send</button>
       </div>
-    </section>
-
-    <!-- Ulaşım Kartları bölümü -->
-    <section id="ulasim-kartlari" style="display:none;">
-      <h2>Ulaşım Kartları Hakkında</h2>
-      <ul>
-        <li><strong>İstanbulkart</strong>: İstanbul'da otobüs, metro, tramvay ve vapurda geçerli.</li>
-        <li><strong>Ankarakart</strong>: Ankara'da otobüs ve metroda kullanılır.</li>
-        <li><strong>İzmirim Kart</strong>: İzmir'de otobüs, metro, vapur ve tramvayda geçerli.</li>
-        <li><strong>Bursakart</strong>: Bursa'da toplu taşıma araçlarında kullanılır.</li>
-        <li><strong>MOTAŞ Kart</strong>: Malatya'da otobüs ve trambüslerde geçerli.</li>
-      </ul>
-      <button onclick="toggleUlasimKartlari()">Kapat</button>
-    </section>
-
-    <!-- Restoranlar bölümü -->
-    <section id="restronlar" style="display:none;">
-      <h2>En Güzel Restoranlar 🍽️</h2>
-      <ul>
-        <li>
-          <strong>Adana: Kebapçı Ciğerci</strong><br>
-          Adana'nın meşhur kebap ve ciğer çeşitleriyle ünlü, hızlı servis ve uygun fiyatlı bir restoran.<br>
-          <strong>Öğrenciye uygun:</strong> Evet (Fiyatlar makul, porsiyonlar doyurucu)<br>
-          <strong>Fiyat:</strong> Ortalama 80-120 TL (kebap porsiyonu)<br>
-          <strong>Neden tercih edilir?</strong> Lezzetli ve otantik Adana kebabı, hızlı servis, samimi ortam.
-        </li>
-        <!-- Diğer restoranlar aynı formatta eklenebilir -->
-      </ul>
-      <button onclick="toggleRestronlar()">Kapat</button>
-    </section>
-
-    <!-- Etkinlikler bölümü -->
-    <section id="etkinlikler" style="display:none;">
-      <h2>Etkinlikler</h2>
-      <ul>
-        <li>Malatya: Kayısı Festivali</li>
-        <li>Malatya: Kültür Yolu Festivali</li>
-        <li>İstanbul: Film Festivali</li>
-        <li>Ankara: Kitap Fuarı</li>
-        <li>İzmir: Maraton</li>
-      </ul>
-      <button onclick="toggleEtkinlikler()">Kapat</button>
-    </section>
-  </main>
-
-  <footer style="text-align:center; margin-top:48px; font-size:90%; color:#555;">
-    <div style="background:linear-gradient(90deg,#fed6e3 0%,#a8edea 100%); border-radius:16px; box-shadow:0 2px 12px #d7266055; padding:16px 24px; display:inline-block; margin-bottom:12px; color:#222;">
-      <strong style="font-size:1.15em; color:#d72660;">&copy; 2025 Tüm Hakları Saklıdır</strong><br>
-      <span style="color:#4fc3f7; font-weight:bold;">Telif Hakkı Uyarısı:</span> Bu sitenin içeriği, tasarımı ve görselleri <b>5846 sayılı Fikir ve Sanat Eserleri Kanunu</b> kapsamında korunmaktadır.<br>
-      İzinsiz kopyalama, çoğaltma ve yayınlama yasaktır. Tespit halinde yasal işlem başlatılır.<br>
-      <span style="font-size:0.95em; color:#d72660;">Lütfen emeğe saygı gösterin.</span>
     </div>
-  </footer>
+    <!-- Şehirler bölümü kaldırıldı -->
+      <!-- Gezilecek Yerler bölümü -->
+      <!-- Gezilecek Yerler bölümü (başlangıçta gizli) -->
+  <!-- Gezilecek Yerler bölümü (başlangıçta gizli, sadece tıklandığında açılır) -->
+  <section id="gezilecek-yerler" style="display:none; background:rgba(255,255,255,0.97); box-shadow:0 8px 32px rgba(0,0,0,0.15); border-radius:16px; padding:32px; max-width:600px; margin:32px auto;">
+        <h2>Gezilecek Yerler</h2>
+        <p>Şehir seçerek sadece o şehre ait gezilecek yerleri görebilirsin:</p>
+        <select id="gezilecekSehirSec" style="padding:6px 14px; border-radius:10px; font-size:1.05em; margin-bottom:18px;">
+          <option value="malatya">Malatya</option>
+          <option value="bursa">Bursa</option>
+        </select>
+        <div id="malatya-yerler" class="sehir-yerler">
+          <h2>Malatya'da Gezilecek Yerler</h2>
+          <p>Malatya'nın en güzel mekanları, kısa bilgi ve neden tercih edilmeli açıklamalarıyla:</p>
+          <div class="restoranlar-grid">
+            <div class="restoran-card">
+              <span class="restoran-emoji">🌊</span>
+              <div class="restoran-title">Günpınar Şelalesi</div>
+              <div class="restoran-desc">Malatya'nın en ünlü doğal şelalesi. Serin ortamı ve yemyeşil doğası ile özellikle yaz aylarında piknik ve dinlenme için tercih edilir.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Doğayla baş başa kalmak ve serinlemek için ideal.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🏺</span>
+              <div class="restoran-title">Malatya Arkeoloji Müzesi</div>
+              <div class="restoran-desc">Hitit, Roma ve Bizans dönemine ait eserlerle Malatya'nın binlerce yıllık tarihini keşfetmek isteyenler için mutlaka görülmeli.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Tarih ve kültür meraklıları için eşsiz bir deneyim.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🌳</span>
+              <div class="restoran-title">Orduzu Pınarbaşı Mesire Alanı</div>
+              <div class="restoran-desc">Şehir merkezine yakın, gölet ve yeşil alanlarıyla ailece vakit geçirmek ve doğayla buluşmak için ideal bir mesire yeri.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Piknik ve doğa yürüyüşü için harika bir ortam.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🕌</span>
+              <div class="restoran-title">Somuncu Baba Türbesi ve Külliyesi</div>
+              <div class="restoran-desc">Anadolu'nun önemli manevi şahsiyetlerinden Somuncu Baba'nın türbesi, huzurlu atmosferiyle ziyaretçilerin uğrak noktası.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Manevi huzur ve tarihi atmosfer arayanlar için.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">⛪</span>
+              <div class="restoran-title">Taşhoron Kilisesi</div>
+              <div class="restoran-desc">18. yüzyıldan kalma, Malatya'nın çok kültürlü geçmişini yansıtan tarihi Ermeni kilisesi.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Mimari ve tarih meraklıları için önerilir.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🐎</span>
+              <div class="restoran-title">Sultansuyu Harası</div>
+              <div class="restoran-desc">Osmanlı'dan günümüze uzanan, safkan Arap atlarının yetiştirildiği harada at çiftliği gezisi ve doğa ile iç içe bir deneyim sunar.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? At çiftliği gezisi ve doğa ile iç içe vakit geçirmek için.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🏛️</span>
+              <div class="restoran-title">Eski Malatya (Battalgazi)</div>
+              <div class="restoran-desc">Roma ve Selçuklu döneminden kalma surlar, Ulu Camii ve tarihi yapılarıyla Malatya'nın köklü geçmişini keşfetmek isteyenler için vazgeçilmez bir rota.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Tarihi dokusu ve antik yapılarıyla kültür gezisi için ideal.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🗻</span>
+              <div class="restoran-title">Levent Vadisi</div>
+              <div class="restoran-desc">Benzersiz kaya oluşumları ve cam terasıyla ünlü, doğa sporları ve fotoğrafçılık için harika bir vadi.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Manzara, doğa yürüyüşü ve adrenalin arayanlar için.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🦅</span>
+              <div class="restoran-title">Beydağı Tabiat Parkı</div>
+              <div class="restoran-desc">Malatya'nın en yüksek noktalarından biri, temiz hava ve şehir manzarası sunar.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Doğa ile baş başa kalmak ve manzara izlemek için.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🏞️</span>
+              <div class="restoran-title">Turgut Özal Parkı</div>
+              <div class="restoran-desc">Şehir merkezinde, gölet ve yürüyüş yolları ile dinlenmek ve spor yapmak için ideal bir park.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Şehir içinde doğa ve huzur arayanlar için.</div>
+            </div>
+          </div>
+        </div>
+        <div id="bursa-yerler" class="sehir-yerler" style="display:none;">
+          <h2>Bursa'da Gezilecek Yerler</h2>
+          <p>Bursa'nın tarihi ve doğal güzelliklerini keşfetmek isteyenler için öne çıkan mekanlar:</p>
+          <div class="restoranlar-grid">
+            <div class="restoran-card">
+              <span class="restoran-emoji">🕌</span>
+              <div class="restoran-title">Ulu Camii</div>
+              <div class="restoran-desc">1399 yılında Yıldırım Bayezid tarafından yaptırılan, Osmanlı mimarisinin en önemli eserlerinden biri. 20 kubbesiyle ünlü.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Tarihi atmosferi ve ihtişamlı mimarisiyle mutlaka görülmeli.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🏞️</span>
+              <div class="restoran-title">Uludağ</div>
+              <div class="restoran-desc">Kış turizminin merkezi, kayak ve doğa yürüyüşleri için ideal. Yazın ise serin havası ve manzarasıyla ünlü.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Kayak, doğa sporları ve muhteşem manzara için tercih edilmeli.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🏰</span>
+              <div class="restoran-title">Bursa Kalesi ve Hisar Bölgesi</div>
+              <div class="restoran-desc">Roma ve Bizans döneminden kalma surlar, Osmanlı döneminin izleriyle tarihi bir yürüyüş rotası.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Tarihi dokusu ve şehir manzarası için ideal.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🌳</span>
+              <div class="restoran-title">Cumalıkızık Köyü</div>
+              <div class="restoran-desc">UNESCO Dünya Mirası listesinde yer alan, Osmanlı döneminden kalma taş sokakları ve renkli evleriyle ünlü köy.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Tarihi köy atmosferi ve fotoğraf tutkunları için harika bir rota.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">💧</span>
+              <div class="restoran-title">İnkaya Çınarı</div>
+              <div class="restoran-desc">Yaklaşık 600 yıllık dev çınar ağacı ve gölgesinde çay bahçeleriyle ünlü.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Doğayla iç içe vakit geçirmek ve tarihi bir ağacın gölgesinde dinlenmek için.</div>
+            </div>
+            <div class="restoran-card">
+              <span class="restoran-emoji">🛶</span>
+              <div class="restoran-title">Gölyazı</div>
+              <div class="restoran-desc">Uluabat Gölü kıyısında yer alan, balıkçı köyü ve doğal güzellikleriyle ünlü bir kasaba.</div>
+              <div class="restoran-neden">Neden tercih edilmeli? Göl manzarası, balık restoranları ve huzurlu ortam için.</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <!-- JS kodların en sona eklenmelidir -->
+      <!-- Ulaşım Kartları bölümü (başlangıçta gizli) -->
+  <!-- Ulaşım Kartları bölümü (başlangıçta gizli, sadece tıklandığında açılır) -->
+  <section id="ulasim-kartlari" style="display:none; background:rgba(255,255,255,0.97); box-shadow:0 8px 32px rgba(0,0,0,0.15); border-radius:16px; padding:32px; max-width:600px; margin:32px auto;">
+        <h2>Ulaşım Kartları Hakkında</h2>
+        <p>
+          Türkiye'nin büyük şehirlerinde toplu taşıma için kullanılan ulaşım kartları hakkında bilgiler:
+        </p>
+        <ul>
+          <li><strong>İstanbulkart</strong>: İstanbul'da otobüs, metro, tramvay ve vapurda geçerli.</li>
+          <li><strong>Ankarakart</strong>: Ankara'da otobüs ve metroda kullanılır.</li>
+          <li><strong>İzmirim Kart</strong>: İzmir'de otobüs, metro, vapur ve tramvayda geçerli.</li>
+          <li><strong>Bursakart</strong>: Bursa'da toplu taşıma araçlarında kullanılır.</li>
+          <li><strong>MOTAŞ Kart</strong>: Malatya'da otobüs ve trambüslerde geçerli.</li>
+          <!-- Diğer şehirlerin kartları eklenebilir -->
+        </ul>
+        <div style="background:linear-gradient(90deg,#a8edea 0%,#fed6e3 100%); border-radius:14px; box-shadow:0 2px 12px #d7266055; padding:16px 18px; margin:18px 0; color:#222; font-size:1.01rem;">
+          <h3 style="color:#d72660; margin-bottom:8px; font-size:1.15rem;">MOTAŞ Kart (Malatya)</h3>
+          <b>MOTAŞ Kart</b>, Malatya'da şehir içi otobüs ve trambüslerde kullanılan elektronik ulaşım kartıdır. Sivil, öğrenci ve abonman seçenekleriyle toplu taşımada kolaylık sağlar.<br><br>
+          <b>2025 Güncel Ücretler:</b><br>
+          <ul style="margin-top:8px; margin-bottom:8px;">
+            <li><b>Sivil Tam:</b> 25 TL</li>
+            <li><b>Öğrenci:</b> 12 TL</li>
+            <li><b>Abonman (Aylık 90 geçiş):</b> 900 TL</li>
+            <li><b>Abonman (Aylık 180 geçiş):</b> 1700 TL</li>
+          </ul>
+          <b>Kart başvurusu ve dolum noktaları:</b> MOTAŞ gişeleri, otobüs durakları ve anlaşmalı büfelerden yapılabilir.<br>
+          <span style="color:#4fc3f7; font-size:0.97em;">Daha fazla bilgi için <a href="https://www.motas.com.tr" target="_blank" style="color:#d72660; text-decoration:underline;">MOTAŞ resmi web sitesini</a> ziyaret edebilirsiniz.</span>
+        </div>
+        <p>
+          Öğrenciler için indirimli kart seçenekleri ve dolum noktaları şehirlerin toplu taşıma web sitelerinden öğrenilebilir.
+        </p>
+        <button onclick="toggleUlasimKartlari()">Kapat</button>
+      </section>
+  <section id="anasayfa">
+      <!-- Projenin Amacı kutusu (sadece ana sayfa bölümünde) -->
+      <div id="proje-amaci" style="background:rgba(168,237,234,0.95); border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.10); padding:16px 24px; max-width:320px; margin:16px auto; font-size:15px; color:#222;">
+        <h2>Şehrini Yeniden Keşfet!</h2>
+        <p>Bu site ile Türkiye'nin şehirlerini, gezilecek yerlerini, restronlarını, etkinliklerini ve ulaşım kartlarını kolayca keşfedebilirsiniz.</p>
+      </div>
+      
+  <!-- Restronlar bölümü (başlangıçta gizli, sadece tıklandığında açılır) -->
+  <section id="restronlar" style="display:none; background:rgba(255,255,255,0.97); box-shadow:0 8px 32px rgba(0,0,0,0.15); border-radius:16px; padding:32px; max-width:600px; margin:32px auto;">
+    <div style="background:linear-gradient(90deg,#fed6e3 0%,#a8edea 100%); border-radius:18px; box-shadow:0 4px 24px #d7266055; padding:18px 24px; margin-bottom:18px; text-align:left;">
+      <h2 style="color:#d72660; font-size:2rem; margin-bottom:8px; letter-spacing:1px; font-weight:bold; display:flex; align-items:center; gap:10px;">
+        <span style="font-size:1.5em;">🍽️</span> En Güzel Restronlar
+      </h2>
+      <div style="font-size:1.08rem; color:#222; font-weight:500; margin-bottom:6px;">Şehrin en popüler restronlarını ve öğrenci dostu lezzet duraklarını keşfet! Fiyat, ortam ve lezzet açısından öne çıkan mekanlar burada.</div>
+      <div style="font-size:0.98rem; color:#4fc3f7; font-weight:400;">Her restronun neden tercih edilmesi gerektiğini ve öğrenciye uygunluğunu görebilirsin.</div>
+    </div>
+    <ul>
+      <li>
+        <strong>Adana: Kebapçı Cığerci</strong><br>
+        Adana'nın meşhur kebap ve ciğer çeşitleriyle ünlü, hızlı servis ve uygun fiyatlı bir restron.<br>
+        <em>Öğrenciye uygun: Evet (Fiyatlar makul, porsiyonlar doyurucu)</em><br>
+        <strong>Fiyat:</strong> Ortalama 80-120 TL (kebap porsiyonu)<br>
+        <strong>Neden tercih edilir?</strong> Lezzetli ve otantik Adana kebabı, hızlı servis, samimi ortam.
+      </li>
+      <li>
+        <strong>İstanbul: Tarihi Sultanahmet Köftecisi</strong><br>
+        İstanbul'un en eski köftecilerinden, tarihi atmosferde klasik Türk köftesi sunar.<br>
+        <em>Öğrenciye uygun: Kısmen (Merkezi konum, fiyatlar ortalama)</em><br>
+        <strong>Fiyat:</strong> Ortalama 120-180 TL (köfte porsiyonu)<br>
+        <strong>Neden tercih edilir?</strong> Tarihi mekan, geleneksel lezzet, merkezi konum.
+      </li>
+      <li>
+        <strong>Gaziantep: İmam Çağdaş</strong><br>
+        Gaziantep mutfağının en ünlü restronlarından, kebap ve baklava çeşitleriyle bilinir.<br>
+        <em>Öğrenciye uygun: Hayır (Fiyatlar yüksek, porsiyonlar büyük)</em><br>
+        <strong>Fiyat:</strong> Ortalama 200-350 TL (kebap veya baklava porsiyonu)<br>
+        <strong>Neden tercih edilir?</strong> Gaziantep mutfağının en iyi örnekleri, kaliteli malzeme, geniş menü.
+      </li>
+      <li>
+        <strong>İzmir: Kumrucu Şevki</strong><br>
+        İzmir'in meşhur kumru sandviçleriyle tanınan, hızlı ve ekonomik bir restron.<br>
+        <em>Öğrenciye uygun: Evet (Fiyatlar uygun, hızlı servis)</em><br>
+        <strong>Fiyat:</strong> Ortalama 50-80 TL (kumru sandviç)<br>
+        <strong>Neden tercih edilir?</strong> Hızlı servis, uygun fiyat, İzmir'e özgü lezzet.
+      </li>
+      <li>
+        <strong>Malatya: Hacı Baba Et Lokantası</strong><br>
+        Uygun fiyat, bol porsiyon, samimi ortam.<br>
+        <em style="color:green;font-weight:bold">Öğrenciye uygun ✔️</em><br>
+        <strong>Fiyat:</strong> Ortalama 100-150 TL<br>
+        <strong>Neden tercih edilir?</strong> Uygun fiyat, bol porsiyon, öğrenci menüleri.
+      </li>
+      <li>
+        <strong>Malatya: Köşk Kebap</strong><br>
+        Lezzetli kebaplar, hızlı servis.<br>
+        <em style="color:green;font-weight:bold">Öğrenciye uygun ✔️</em><br>
+        <strong>Fiyat:</strong> Ortalama 120-180 TL<br>
+        <strong>Neden tercih edilir?</strong> Hızlı servis, uygun fiyat, öğrenci dostu ortam.
+      </li>
+      <li>
+        <strong>Malatya: Lezzet Durağı</strong><br>
+        Öğrenci menüleri, uygun fiyat, merkezi konum.<br>
+        <em style="color:green;font-weight:bold">Öğrenciye uygun ✔️</em><br>
+        <strong>Fiyat:</strong> Ortalama 80-120 TL<br>
+        <strong>Neden tercih edilir?</strong> Uygun fiyat, kampüs yakınında, öğrenci menüleri.
+      </li>
+      <li>
+        <strong>Malatya: Çavuşoğlu Et Lokantası</strong><br>
+        Bol porsiyon, uygun fiyat, öğrenci menüleri.<br>
+        <em style="color:green;font-weight:bold">Öğrenciye uygun ✔️</em><br>
+        <strong>Fiyat:</strong> Ortalama 90-130 TL<br>
+        <strong>Neden tercih edilir?</strong> Bol porsiyon, uygun fiyat, öğrenci menüleri.
+      </li>
+      <li>
+        <strong>Malatya: Hasanbey Sofrası</strong><br>
+        Ev yemekleri, uygun fiyat, öğrenci dostu ortam.<br>
+        <em style="color:green;font-weight:bold">Öğrenciye uygun ✔️</em><br>
+        <strong>Fiyat:</strong> Ortalama 70-110 TL<br>
+        <strong>Neden tercih edilir?</strong> Ev yemekleri, uygun fiyat, öğrenci dostu ortam.
+      </li>
+      <li>
+      <strong>Malatya: Ahmet Bey Yöresel Ev yemekleri</strong><br>
+      Ev yemekleri konseptiyle hizmet veren, lezzetli ve ekonomik bir restoran.<br>
+      <em style="color:green;font-weight:bold">öğrenciye uygun ✔️</em><br>
+      <strong>Fiyat:</strong> ortalama Restoranın menüsü hakkında kesin fiyat bilgisi bulunmamaktadır. Ancak, genel olarak Malatya'daki ev yemekleri restoranlarında ana yemeklerin fiyatları 50 TL ile 100 TL arasında değişmektedir.<br>
+      <strong>Neden tercih edilir</strong> Malatyanın yöresel yemeklerini tadmak istiyen herkesi bekleriz
+      <li>
+    </ul>
+    <button onclick="toggleRestronlar()">Kapat</button>
+  </section>
+
+  <!-- Etkinlikler bölümü (başlangıçta gizli, sadece tıklandığında açılır) -->
+  <section id="etkinlikler" style="display:none; background:rgba(255,255,255,0.97); box-shadow:0 8px 32px rgba(0,0,0,0.15); border-radius:16px; padding:32px; max-width:600px; margin:32px auto;">
+    <h2>Etkinlikler</h2>
+    <p>Her şehirde düzenlenen önemli etkinlikler ve festivaller burada listelenecek. Örnekler:</p>
+    <ul>
+      <li>Malatya: Kayısı Festivali</li>
+      <ul>
+  <li>
+    Malatya: Kültür Yolu festivali:Kültür Yolu Festivali, farklı şehirlerin yöresel lezzetlerini, el sanatlarını ve müziklerini bir araya getiren renkli bir buluşma. Herkesin hem eğlendiği hem de kültürü keşfettiği bir festival!
+    <p style="font-size: 0.9em; color: gray; margin: 0;">Kültür Yolu festivali:Kültür Yolu Festivali, farklı şehirlerin yöresel lezzetlerini, el sanatlarını ve müziklerini bir araya getiren renkli bir buluşma. Herkesin hem eğlendiği hem de kültürü keşfettiği bir festival</p>
+<p>Festival programını görmek için tıklayın:</p>
+<h2>Kültür Yolu Festivali</h2>
+<br>
+  </li>
+</ul>
+      <li>İstanbul: Film Festivali</li>
+      <li>Ankara: Kitap Fuarı</li>
+      <li>İzmir: Maraton</li>
+      <!-- Diğer şehir etkinlikleri eklenebilir -->
+    </ul>
+    <button onclick="toggleEtkinlikler()">Kapat</button>
+  </section>
   <script>
-    // JS kodunu burada kullanabilirsin.
-    // toggleGezilecekYerler, toggleUlasimKartlari, toggleRestronlar, toggleEtkinlikler fonksiyonları örnek olarak bırakıldı.
-    function hideAllSections() {
-      document.getElementById('gezilecek-yerler').style.display = 'none';
-      document.getElementById('ulasim-kartlari').style.display = 'none';
-      document.getElementById('restronlar').style.display = 'none';
-      document.getElementById('etkinlikler').style.display = 'none';
-    }
-    function toggleGezilecekYerler() {
-      hideAllSections();
-      document.getElementById('gezilecek-yerler').style.display = 'block';
-    }
-    function toggleUlasimKartlari() {
-      hideAllSections();
-      document.getElementById('ulasim-kartlari').style.display = 'block';
-    }
-    function toggleRestronlar() {
-      hideAllSections();
-      document.getElementById('restronlar').style.display = 'block';
-    }
-    function toggleEtkinlikler() {
-      hideAllSections();
-      document.getElementById('etkinlikler').style.display = 'block';
-    }
-    // Şehir seçimine göre gezilecek yerler bölümü güncellemesi
+    // Tüm JS kodunu tek bir DOMContentLoaded içinde topla
     document.addEventListener('DOMContentLoaded', function() {
-      var sehirSec = document.getElementById('gezilecekSehirSec');
-      var malatyaDiv = document.getElementById('malatya-yerler');
-      var bursaDiv = document.getElementById('bursa-yerler');
-      if (sehirSec) {
-        sehirSec.addEventListener('change', function() {
+      // Bot context memory
+      var botContext = {
+        lastCity: '',
+        lastTopic: '',
+        lastFilmType: '',
+        lastUser: '',
+        tips: [
+          '💡 İpucu: Restoranlarda grup indirimi veya menü fırsatlarını sorabilirsiniz.',
+          '💡 İpucu: Gezilecek yerler bölümünde şehirlerin en popüler noktalarını bulabilirsiniz.',
+          '💡 İpucu: Film önerisi için tür belirtin, size özel tavsiye sunabilirim!',
+          '💡 İpucu: Hava durumu için şehir adını yazın, tahmini sıcaklık verebilirim!',
+          '💡 İpucu: Öğrenci indirimleri için mekan ve şehir adını belirtin.',
+          '💡 Tip: You can ask for restaurant recommendations in English too!',
+          '💡 Tip: For movie suggestions, specify the genre and I will help!'
+        ],
+        cities: {
+          malatya: {
+            info: 'Malatya, kayısı diyarı ve öğrenci dostu mekanlarıyla bilinir.',
+            restaurants: [
+              'Hacı Baba Et Lokantası',
+              'Köşk Kebap',
+              'Saray Çorbacısı',
+              'Köfteci İsmail'
+            ],
+            events: ['Kayısı Festivali', 'Kültür Yolu Festivali'],
+            weather: 'Bugün Malatya’da hava 23°C, güneşli.'
+          },
+          ankara: {
+            info: 'Ankara, Türkiye’nin başkentidir. Tarihi ve kültürel mekanları, ulaşım kolaylığı ve öğrenci dostu restronları ile bilinir.',
+            restaurants: ['Cebeci Kebap', 'Kızılay Dürümcü', 'Dostlar Lokantası'],
+            events: ['Kitap Fuarı', 'Caz Festivali', 'Gençlik Konserleri'],
+            weather: 'Bugün Ankara’da hava 22°C, hafif bulutlu.'
+          },
+          istanbul: {
+            info: 'İstanbul, iki kıtada yer alan eşsiz bir şehirdir. Tarihi yapıları, restronları ve etkinlikleriyle ünlüdür.',
+            restaurants: ['Kadıköy Çiğköfteci', 'Beşiktaş Pilavcı', 'Sultanahmet Köftecisi'],
+            events: ['Film Festivali', 'Müzik Haftası', 'Sanat Günleri'],
+            weather: 'Bugün İstanbul’da hava 19°C, parçalı bulutlu.'
+          },
+          izmir: {
+            info: 'İzmir, Ege’nin incisi olarak bilinir. Sahil şeridi, kumru restronları ve genç nüfusuyla öne çıkar.',
+            restaurants: ['Kumrucu Şevki', 'Bornova Dönerci', 'Alsancak Sandviç'],
+            events: ['Maraton', 'Gastronomi Festivali', 'Sahil Konserleri'],
+            weather: 'Bugün İzmir’de hava 25°C, güneşli.'
+          },
+          bursa: {
+            info: 'Bursa, tarihi ve doğal güzellikleriyle ünlü, öğrenci dostu bir şehirdir.',
+            restaurants: ['İskender Kebap', 'Uludağ Et Lokantası', 'Çiçek Izgara'],
+            events: ['Uludağ Festivali', 'Tiyatro Günleri'],
+            weather: 'Bugün Bursa’da hava 20°C, açık.'
+          },
+          antalya: {
+            info: 'Antalya, denizi ve festivalleriyle gençlerin favorisi.',
+            restaurants: ['Dondurma Dükkanı', 'Kaleiçi Balıkçısı', 'Pideci Hasan'],
+            events: ['Film Festivali', 'Yaz Konserleri'],
+            weather: 'Bugün Antalya’da hava 28°C, güneşli.'
+          }
+        },
+        filmTypes: {
+          aksiyon: [
+            {title:'Mad Max: Fury Road', imdb:8.1, desc:'Çılgın bir dünyada hayatta kalma mücadelesi.'},
+            {title:'John Wick', imdb:7.4, desc:'İntikam peşindeki bir adamın hikayesi.'},
+            {title:'Hızlı ve Öfkeli', imdb:7.2, desc:'Aksiyon dolu araba yarışları.'}
+          ],
+          komedi: [
+            {title:'Recep İvedik', imdb:4.6, desc:'Absürt Türk komedisi.'},
+            {title:'G.O.R.A', imdb:8.0, desc:'Uzayda geçen eğlenceli bir macera.'},
+            {title:'Aile Arasında', imdb:7.6, desc:'Aile bağları üzerine sıcak bir komedi.'}
+          ],
+          dram: [
+            {title:'Babam ve Oğlum', imdb:8.2, desc:'Duygusal bir aile hikayesi.'},
+            {title:'Kelebeğin Rüyası', imdb:7.8, desc:'Şairlerin hayatı ve mücadeleleri.'},
+            {title:'Bir Zamanlar Anadolu’da', imdb:7.9, desc:'Kırsalda geçen bir dram.'}
+          ],
+          bilimkurgu: [
+            {title:'Interstellar', imdb:8.6, desc:'Uzayda zaman ve sevgi.'},
+            {title:'Yıldızlararası', imdb:8.6, desc:'Alternatif isim, Interstellar.'},
+            {title:'Matrix', imdb:8.7, desc:'Gerçeklik ve simülasyon.'}
+          ],
+          animasyon: [
+            {title:'Ratatouille', imdb:8.1, desc:'Yemek yapan bir fare.'},
+            {title:'Up', imdb:8.2, desc:'Macera dolu bir balon yolculuğu.'},
+            {title:'Toy Story', imdb:8.3, desc:'Oyuncakların gizli dünyası.'}
+          ]
+        }
+      };
+      function randomTip() {
+        return botContext.tips[Math.floor(Math.random()*botContext.tips.length)];
+      }
+      function botReply(cmd, lang, botName, botChat) {
+        // ...botReply içeriği aynı...
+        var filmTypes = Object.keys(botContext.filmTypes);
+        for(var i=0;i<filmTypes.length;i++) {
+          var type = filmTypes[i];
+          if(cmd.includes(type)) {
+            botContext.lastFilmType = type;
+            var films = botContext.filmTypes[type];
+            var filmList = films.map(function(f){
+              return '🎬 <b style="color:#e67">'+f.title+'</b> <span style="color:#09f">(IMDb: '+f.imdb+')</span> - '+f.desc;
+            }).join('<br>');
+            return (lang==='en' ? 'Here are <b style="color:#e67">'+type+'</b> movies:' : 'İşte <b style="color:#e67">'+type+'</b> türünde öneriler:')+'<br>'+filmList+'<br>😊 '+(lang==='en' ? 'Want more movie suggestions?' : 'Daha fazla film önerisi ister misin?')+' '+randomTip();
+          }
+        }
+        if(cmd.includes('hava') || cmd.includes('sıcaklık') || cmd.includes('weather')) {
+          if(botContext.lastCity && botContext.cities[botContext.lastCity]) {
+            return '🌤️ <b style="color:#2b7">'+botContext.lastCity.charAt(0).toUpperCase()+botContext.lastCity.slice(1)+'</b>: '+botContext.cities[botContext.lastCity].weather+'<br>'+ (lang==='en' ? 'Want more weather info?' : 'Daha fazla hava durumu ister misin?')+' '+randomTip();
+          }
+          return (lang==='en' ? 'Type a city name for weather info! For example: "Weather in Antalya"' : 'Hava durumu için şehir adını belirtin, örneğin: "Antalya’da hava nasıl?"')+' '+randomTip();
+        }
+        if(cmd.includes('şaka') || cmd.includes('gülmek') || cmd.includes('joke')) return (lang==='en'
+          ? '😂 Here is a joke: Why do AIs never get lost? Because they always have a <span style="color:#e67">roadmap</span>! 😄<br>Want another joke? Just ask! '+randomTip()
+          : '😂 İşte bir şaka: Neden yapay zekalar asla kaybolmaz? Çünkü her zaman bir <span style="color:#e67">yol haritası</span> vardır! 😄<br>Başka bir şaka ister misin? Sadece sor! '+randomTip());
+        if(cmd.includes('bilgi') || cmd.includes('fun fact')) return (lang==='en'
+          ? '📚 <b>Fun Fact:</b> Did you know? <span style="color:#2b7">Turkey</span> is one of the few countries on two continents!<br>Want more facts? Just ask! '+randomTip()
+          : '📚 <b>Bilgi:</b> Biliyor musunuz? <span style="color:#2b7">Türkiye</span>, iki kıtada yer alan nadir ülkelerden biridir!<br>Daha fazla bilgi ister misin? Sadece sor! '+randomTip());
+        if(cmd.includes('kapat') || cmd.includes('gizle') || cmd.includes('close')) { botChat.style.display = 'none'; return lang==='en' ? 'Chat closed. See you soon! 👋' : 'Sohbet kapatıldı. Görüşmek üzere! 👋'; }
+        if(cmd.includes('merhaba') || cmd.includes('hello')) return (lang==='en'
+          ? '👋 Hello <b style="color:#e67">'+botName+'</b>! How can I help you today? <br>💡 Tip: Try asking about cities, restaurants, or movies.'
+          : '👋 Merhaba <b style="color:#e67">'+botName+'</b>! Size nasıl yardımcı olabilirim? <br>💡 İpucu: Şehir, restron veya film hakkında sorabilirsiniz.')+' '+randomTip();
+        return (lang==='en'
+          ? '🤔 I need a bit more detail to help you!<br>💬 Example: "Student-friendly restaurants in Izmir", "Events in Ankara", "Movie suggestion", "My name is Ali".<br>😊 Want more ideas? Just ask!'
+          : '🤔 Sana daha iyi yardımcı olabilmem için biraz daha detay verir misin?<br>💬 Örnek: "İzmir’de öğrenciye uygun restronlar", "Ankara’da etkinlikler", "Film önerisi", "Benim adım Ali" gibi.<br>😊 Daha fazla öneri ister misin? Sadece sor!')+' '+randomTip();
+      }
+      var botLang = document.getElementById('ai-bot-lang');
+      var botWelcome = document.getElementById('ai-bot-welcome');
+      function setWelcome(lang) {
+        if(lang==='en') {
+          botWelcome.innerHTML = '<strong>Zeki:</strong> 👋 Hello! I am Zeki, your cute AI assistant. I can answer your questions about cities, restaurants, events, student life, and more. I can offer personalized suggestions and tips. How can I help you?';
+        } else {
+          botWelcome.innerHTML = '<strong>Zeki:</strong> 👋 Merhaba! Ben tatlış asistanın Zeki. Şehirler, restronlar, etkinlikler, öğrenci hayatı ve daha fazlası hakkında sorularınızı yanıtlayabilirim. Size özel öneriler ve ipuçları sunabilirim. Nasıl yardımcı olabilirim?';
+        }
+      }
+      if(botLang) {
+        setWelcome(botLang.value);
+        botLang.addEventListener('change', function(){
+          setWelcome(botLang.value);
+          if (botChat) botChat.style.display = 'block'; // Always keep chat open when switching language
+        });
+      }
+      var botContainer = document.getElementById('ai-bot-container');
+      var botChat = document.getElementById('ai-bot-chat');
+      var botInput = document.getElementById('ai-bot-input');
+      if (botInput) {
+        botInput.style.width = '80%'; // Make input field wider
+        botInput.style.maxWidth = '500px';
+      }
+      var botSend = document.getElementById('ai-bot-send');
+      var botMessages = document.getElementById('ai-bot-messages');
+      var botLoading = document.getElementById('ai-bot-loading');
+      var botSvg = document.getElementById('ai-bot-svg');
+      var chatHistory = [];
+      function renderChat() {
+        botMessages.innerHTML = chatHistory.map(function(item){
+          return '<div style="margin-bottom:4px;"><strong>Siz:</strong> '+item.q+'</div><div><strong>Bot:</strong> '+item.a+'</div>';
+        }).join('');
+        botMessages.scrollTop = botMessages.scrollHeight;
+      }
+      if(botContainer && botChat && botInput && botSend && botMessages && botSvg && botLoading) {
+        botContainer.onclick = function(e) {
+          if(e.target === botInput || e.target === botSend) return;
+          botChat.style.display = botChat.style.display === 'none' ? 'block' : 'none';
+        };
+        botSend.onclick = function() {
+          var cmd = botInput.value.trim();
+          if(!cmd) return;
+          botLoading.style.display = 'block';
+          setTimeout(function(){
+            var reply = botReply(cmd, botLang.value, 'Zeki', botChat);
+            if(reply) chatHistory.push({q:cmd,a:reply});
+            renderChat();
+            botInput.value = '';
+            botLoading.style.display = 'none';
+          }, 700);
+        };
+        botInput.addEventListener('keydown', function(e){ if(e.key==='Enter') botSend.click(); });
+      }
+      // Confetti effect
+      function randomColor() {
+        const colors = ['#d72660','#a8edea','#fed6e3','#fcb69f','#a1c4fd','#c2e9fb','#ffb347','#ffcc33'];
+        return colors[Math.floor(Math.random()*colors.length)];
+      }
+      function launchConfetti() {
+        const canvas = document.querySelector('.confetti');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let pieces = [];
+        for(let i=0;i<120;i++){
+          pieces.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height/2,
+            r: 6+Math.random()*8,
+            c: randomColor(),
+            vx: -2+Math.random()*4,
+            vy: 2+Math.random()*3,
+            a: Math.random()*2*Math.PI
+          });
+        }
+        let frame=0;
+        function draw(){
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          pieces.forEach(p=>{
+            ctx.save();
+            ctx.translate(p.x,p.y);
+            ctx.rotate(p.a);
+            ctx.fillStyle=p.c;
+            ctx.beginPath();
+            ctx.arc(0,0,p.r,0,2*Math.PI);
+            ctx.fill();
+            ctx.restore();
+            p.x+=p.vx;
+            p.y+=p.vy;
+            p.a+=0.07;
+            if(p.y>canvas.height){p.y=0;p.x=Math.random()*canvas.width;}
+          });
+          frame++;
+          if(frame<90){requestAnimationFrame(draw);}
+          else {
+            canvas.parentNode && canvas.parentNode.removeChild(canvas);
+          }
+        }
+        draw();
+      }
+      // Section toggling
+      function hideAllSections() {
+        document.getElementById('gezilecek-yerler').style.display = 'none';
+        document.getElementById('ulasim-kartlari').style.display = 'none';
+        document.getElementById('restronlar').style.display = 'none';
+        document.getElementById('etkinlikler').style.display = 'none';
+      }
+      window.toggleGezilecekYerler = function() {
+        hideAllSections();
+        document.getElementById('gezilecek-yerler').style.display = 'block';
+        updateGezilecekYerler();
+      }
+      // Şehir seçimi fonksiyonu
+      function updateGezilecekYerler() {
+        var sehirSec = document.getElementById('gezilecekSehirSec');
+        var malatyaDiv = document.getElementById('malatya-yerler');
+        var bursaDiv = document.getElementById('bursa-yerler');
+        if (sehirSec && malatyaDiv && bursaDiv) {
           if (sehirSec.value === 'malatya') {
             malatyaDiv.style.display = 'block';
             bursaDiv.style.display = 'none';
@@ -165,9 +797,73 @@
             malatyaDiv.style.display = 'none';
             bursaDiv.style.display = 'block';
           }
+        }
+      }
+      // Sayfa yüklendiğinde ve şehir değiştiğinde çalışsın
+      var gezilecekSehirSec = document.getElementById('gezilecekSehirSec');
+      if (gezilecekSehirSec) {
+        gezilecekSehirSec.addEventListener('change', updateGezilecekYerler);
+        updateGezilecekYerler();
+      }
+      window.toggleUlasimKartlari = function() {
+        hideAllSections();
+        document.getElementById('ulasim-kartlari').style.display = 'block';
+      }
+      window.toggleRestronlar = function() {
+        hideAllSections();
+        document.getElementById('restronlar').style.display = 'block';
+      }
+      window.toggleEtkinlikler = function() {
+        hideAllSections();
+        document.getElementById('etkinlikler').style.display = 'block';
+      }
+      // Etkinlikler için şehir seçimi
+      var sehirSec = document.getElementById('sehirSec');
+      var etkinlikListesi = document.getElementById('etkinlikListesi');
+      if (sehirSec && etkinlikListesi) {
+        sehirSec.addEventListener('change', function() {
+          var etkinlikler = {
+            malatya: ['Kayısı Festivali', 'Kültür Yolu Festivali'],
+            istanbul: ['İstanbul Film Festivali', 'Müzik Haftası'],
+            ankara: ['Ankara Kitap Fuarı', 'Sanat Günleri'],
+            izmir: ['İzmir Maratonu', 'Gastronomi Festivali'],
+            elazig: ['Harput Kültür Şenliği', 'Elazığ Konserleri']
+          };
+          var secilen = sehirSec.value;
+          var html = '<ul>';
+          if (etkinlikler[secilen]) {
+            etkinlikler[secilen].forEach(function(e) {
+              html += '<li>' + e + '</li>';
+            });
+          } else {
+            html += '<li>Etkinlik bulunamadı.</li>';
+          }
+          html += '</ul>';
+          etkinlikListesi.innerHTML = html;
+        });
+        sehirSec.dispatchEvent(new Event('change'));
+      }
+      // Confetti on button click for extra attraction
+      var ctaBtn = document.querySelector('.cta-student');
+      if(ctaBtn) {
+        ctaBtn.addEventListener('click', function() {
+          let canvas = document.createElement('canvas');
+          canvas.className = 'confetti';
+          document.body.appendChild(canvas);
+          setTimeout(function(){
+            if(canvas.parentNode) canvas.parentNode.removeChild(canvas);
+          }, 4000);
+          if(typeof launchConfetti === 'function') launchConfetti();
         });
       }
     });
   </script>
-</body>
-</html>
+  </body>
+
+  <footer style="text-align:center; margin-top:48px; font-size:90%; color:#555;">
+    <div style="background:linear-gradient(90deg,#fed6e3 0%,#a8edea 100%); border-radius:16px; box-shadow:0 2px 12px #d7266055; padding:16px 24px; display:inline-block; margin-bottom:12px; color:#222; font-size:1rem; font-weight:500;">
+      <strong style="font-size:1.15em; color:#d72660;">&copy; 2025 Tüm Hakları Saklıdır</strong><br>
+      <span style="color:#4fc3f7; font-weight:bold;">Telif Hakkı Uyarısı:</span> Bu sitenin içeriği, tasarımı ve görselleri <b>5846 sayılı Fikir ve Sanat Eserleri Kanunu</b> kapsamında korunmaktadır.<br>
+      İzinsiz kopyalama, çoğaltma ve yayınlama yasaktır. Tespit halinde yasal işlem başlatılır.<br>
+      <span style="font-size:0.95em; color:#d72660;">Lütfen emeğe saygı gösterin.</span>
+    </div>
